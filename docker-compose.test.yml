@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: evesde
+      POSTGRES_PASSWORD: evesde
+      POSTGRES_DB: evesde_test
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evesde"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mariadb:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: evesde
+      MARIADB_USER: evesde
+      MARIADB_PASSWORD: evesde
+      MARIADB_DATABASE: evesde_test
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uevesde", "-pevesde"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

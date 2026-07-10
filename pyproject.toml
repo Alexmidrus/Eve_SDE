@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evesde"
+version = "0.1.0"
+description = "Библиотека для работы со статическими данными EVE Online (SDE)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "evesde contributors" }]
+keywords = ["eve-online", "eve", "sde", "static-data-export", "sqlalchemy"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "sqlalchemy>=2.0",
+    "click>=8.1",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+evesde = "evesde.cli:cli"
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.1"]
+mysql = ["pymysql>=1.1"]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    # Только для теста, что примеры планировщиков из README «Расписание
+    # обновлений» (T11/T13) реально работают -- не зависимости библиотеки,
+    # планировщик/очередь задач выбирает пользователь сам.
+    "apscheduler>=3.10",
+    "celery>=5.3",
+]
+# Инструменты сборки/публикации (T14) -- не нужны для работы или тестов библиотеки.
+release = ["build>=1.0", "twine>=5.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+evesde = ["schema/manifest.json", "py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# Фикстуры содержат однострочные SQL-стейтменты (ALTER TABLE ... FOREIGN KEY ...),
+# которые нельзя перенести на несколько строк без изменения семантики теста.
+"**/test_gen_manifest.py" = ["E501"]
+# SQL витрин перенесён дословно из eve_sde_full_schema.sql (см. etl/marts.py) --
+# построчный CASE WHEN пивот на 67 колонок длиннее 100 символов сам по себе.
+"**/marts.py" = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src"]
+mypy_path = "src"
+explicit_package_bases = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "dbms: интеграционные тесты, требующие реальных MySQL/PostgreSQL (docker-compose)",
+]

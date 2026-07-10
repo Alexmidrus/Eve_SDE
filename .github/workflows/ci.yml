@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: mypy
+
+  test-sqlite:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -m "not dbms"
+
+  test-dbms:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: evesde
+          POSTGRES_PASSWORD: evesde
+          POSTGRES_DB: evesde_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U evesde"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      mariadb:
+        image: mariadb:11
+        env:
+          MARIADB_ROOT_PASSWORD: evesde
+          MARIADB_USER: evesde
+          MARIADB_PASSWORD: evesde
+          MARIADB_DATABASE: evesde_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h localhost -uevesde -pevesde"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev,postgres,mysql]"
+      - run: pytest -m dbms
+        env:
+          EVESDE_TEST_POSTGRES_URL: "postgresql+psycopg://evesde:evesde@localhost:5432/evesde_test"
+          EVESDE_TEST_MYSQL_URL: "mysql+pymysql://evesde:evesde@localhost:3306/evesde_test"
