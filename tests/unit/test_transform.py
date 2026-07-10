@@ -1,8 +1,8 @@
 """Тесты чистых функций etl/transform.py.
 
-Часть тестов работает на реальном manifest.json (T02) с мини-примерами
+Часть тестов работает на реальном manifest.json с мини-примерами
 записей types.jsonl/blueprints.jsonl/epicArcs.jsonl/masteries.jsonl,
-построенными по SDE_schema_report.md. Часть -- на маленьком синтетическом
+построенными по reference/SDE_schema_report.md. Часть -- на маленьком синтетическом
 манифесте (аналогично tests/unit/test_gen_manifest.py), где удобнее точечно
 проверить суррогатные id и обработку неизвестных полей.
 """

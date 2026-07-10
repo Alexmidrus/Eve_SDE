@@ -36,7 +36,7 @@ agents = sde.agents(level=4, region="The Forge", is_locator=True)
 2. **Витрины (оптимизированный слой)** — 8 таблиц, строятся `INSERT ... SELECT` из raw: `dim_items`, `dim_universe`, `dim_agents`, `type_common_stats` (пивот 67 dogma-атрибутов), `industry_activities/materials/products/skills`.
 3. **Публичный API** читает в первую очередь витрины, raw — для редких данных.
 
-Эталон структуры — SQL-файлы в `reference/` (`eve_sde_full_schema.sql` = `eve_sde_schema.sql` + `eve_sde_optimized.sql`). Они уже проверены и исправлены (см. CHANGELOG в шапке файлов). **Источником истины для кода является манифест** `schema/manifest.json`, генерируемый из этих SQL (задача T02): из манифеста строятся и DDL, и ETL — чтобы они не могли разойтись.
+Эталон структуры — SQL-файлы в `reference/` (`eve_sde_full_schema.sql` = `eve_sde_schema.sql` + `eve_sde_optimized.sql`). Они уже проверены и исправлены (см. CHANGELOG в шапке файлов). **Источником истины для кода является манифест** `schema/manifest.json`, генерируемый из этих SQL (`tools/gen_manifest.py`): из манифеста строятся и DDL, и ETL — чтобы они не могли разойтись.
 
 ## 3. Конвенции схемы (обязательны в ETL)
 
@@ -91,7 +91,7 @@ evesde/
     __init__.py          # экспорт SDE
     config.py            # конфигурация подключения
     schema/
-      manifest.json      # источник истины (генерируется T02)
+      manifest.json      # источник истины (генерируется tools/gen_manifest.py)
       builder.py         # manifest -> SQLAlchemy MetaData
     etl/
       transform.py       # чистые функции JSON -> строки таблиц

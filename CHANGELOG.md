@@ -4,11 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-07-10
+
 ### Добавлено
 
 - Каркас пакета (src-layout), конфигурация подключения (`SDEConfig`) для
   SQLite/PostgreSQL/MySQL/MariaDB с валидацией диалекта и драйвера.
-- Генератор `manifest.json` из эталонного `eve_sde_full_schema.sql`
+- Генератор `manifest.json` из эталонного `reference/eve_sde_full_schema.sql`
   (`tools/gen_manifest.py`) — источник истины для схемы и ETL.
 - Построение SQLAlchemy `MetaData` из манифеста (`schema/builder.py`):
   raw-слой (174 таблицы) и витрины (8 таблиц), индексы отложены до загрузки.

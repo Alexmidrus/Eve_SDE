@@ -1,10 +1,71 @@
-.venv/
+# --- Python ---
 __pycache__/
-*.pyc
-.mypy_cache/
-.ruff_cache/
-.pytest_cache/
-*.egg-info/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Сборка и упаковка ---
 build/
 dist/
+*.egg-info/
+.eggs/
+*.egg
+wheels/
+MANIFEST
+
+# --- Виртуальные окружения ---
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# --- Тесты и покрытие ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.tox/
+.nox/
+
+# --- Линтеры и тайпчекеры ---
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+.pytype/
+
+# --- Локальные секреты/конфигурация ---
+.env
+.env.*
+!.env.example
+
+# --- Артефакты запуска библиотеки (SQLite-базы и т.п.) ---
 *.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# --- IDE ---
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# --- Claude Code (локальные служебные файлы) ---
+.claude/
+
+# --- ОС ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- Логи ---
+*.log

@@ -1,4 +1,4 @@
-"""Полная цепочка на реальных PostgreSQL/MariaDB (T12): create tables -> load
+"""Полная цепочка на реальных PostgreSQL/MariaDB: create tables -> load
 фикстур -> marts -> verify -> API-запросы. Параметризовано по обеим СУБД.
 
 Поднимаются через ``docker-compose.test.yml`` (см. README «Как запускать

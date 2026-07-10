@@ -8,12 +8,12 @@
 2. FK-сироты -- для каждого FK из манифеста (raw и mart-слой) считает
    значения, для которых нет родителя. Заведомо-не-FK колонки (например,
    ``agents_in_space.dungeon_id``) в манифесте вообще не значатся как FK
-   (см. T02: они не объявлены как FOREIGN KEY в эталонном
-   ``eve_sde_full_schema.sql``) -- их не нужно исключать отдельно, verify
+   (они не объявлены как FOREIGN KEY в эталонном
+   ``reference/eve_sde_full_schema.sql``) -- их не нужно исключать отдельно, verify
    их и не проверяет;
 3. витрины не пустые, и их ключи существуют в соответствующей raw-таблице
    (см. `_MART_KEY_SOURCE`, повторяет комментарии `-- = types.id` и т.п. из
-   ``eve_sde_full_schema.sql``);
+   ``reference/eve_sde_full_schema.sql``);
 4. buildNumber/releaseDate текущей загрузки (таблица ``sde``).
 """
 

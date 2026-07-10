@@ -1,5 +1,5 @@
 """Проверяет, что каждый python-пример из README.md реально выполняется на
-SQLite (T13). Сеть (check_remote_build/download) замокана на локальные
+SQLite. Сеть (check_remote_build/download) замокана на локальные
 фикстуры sde_marts -- сами примеры выполняются дословно, без правок."""
 
 from __future__ import annotations

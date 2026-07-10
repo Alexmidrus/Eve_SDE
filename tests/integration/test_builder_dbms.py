@@ -1,8 +1,8 @@
 """Smoke-тесты schema/builder.py на реальных PostgreSQL/MySQL (см. CLAUDE.md §8).
 
-Требуют СУБД, поднятой через docker-compose (сам docker-compose.test.yml
-добавляется в T12). До T12 тесты читают URL подключения из переменных
-окружения ``EVESDE_TEST_POSTGRES_URL`` / ``EVESDE_TEST_MYSQL_URL`` и
+Требуют СУБД, поднятой через `docker-compose.test.yml`. Тесты читают URL
+подключения из переменных окружения ``EVESDE_TEST_POSTGRES_URL`` /
+``EVESDE_TEST_MYSQL_URL`` и
 пропускаются (skip), если переменная не задана или СУБД недоступна --
 поэтому обычный прогон `pytest` (без docker) остаётся зелёным.
 """
@@ -24,7 +24,7 @@ pytestmark = pytest.mark.dbms
 def _dbms_engine(env_var: str) -> Engine:
     url = os.environ.get(env_var)
     if not url:
-        pytest.skip(f"{env_var} не задан -- нужна СУБД из docker-compose (см. T12)")
+        pytest.skip(f"{env_var} не задан -- нужна СУБД из docker-compose.test.yml")
     engine = create_engine(url)
     try:
         with engine.connect():

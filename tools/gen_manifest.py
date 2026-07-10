@@ -1,8 +1,8 @@
-"""Парсер `eve_sde_full_schema.sql` -> `src/evesde/schema/manifest.json`.
+"""Парсер `reference/eve_sde_full_schema.sql` -> `src/evesde/schema/manifest.json`.
 
 Манифест — машиночитаемое описание схемы (таблицы, колонки, PK/UNIQUE/FK,
 индексы), используемое как единственный источник истины для DDL-строителя
-(schema/builder.py, T03) и ETL (etl/transform.py, T04) — чтобы они не могли
+(schema/builder.py) и ETL (etl/transform.py) — чтобы они не могли
 разойтись со схемой.
 
 Парсер работает построчно на уровне SQL-стейтментов (см. `_split_statements`)

@@ -1,7 +1,7 @@
-"""Smoke-тесты load_fresh на реальных PostgreSQL/MySQL (см. CLAUDE.md §8, T03).
+"""Smoke-тесты load_fresh на реальных PostgreSQL/MySQL (см. CLAUDE.md §8).
 
-Как и test_builder_dbms.py: требуют СУБД из docker-compose (T12); до этого
-читают URL из EVESDE_TEST_POSTGRES_URL/EVESDE_TEST_MYSQL_URL и пропускаются
+Как и test_builder_dbms.py: требуют СУБД из docker-compose.test.yml; читают
+URL из EVESDE_TEST_POSTGRES_URL/EVESDE_TEST_MYSQL_URL и пропускаются
 (skip), если переменная не задана или СУБД недоступна.
 """
 
@@ -27,7 +27,7 @@ _FIXTURES_DIR = Path(__file__).resolve().parents[1] / "fixtures" / "sde_mini"
 def _dbms_config(env_var: str) -> SDEConfig:
     url = os.environ.get(env_var)
     if not url:
-        pytest.skip(f"{env_var} не задан -- нужна СУБД из docker-compose (см. T12)")
+        pytest.skip(f"{env_var} не задан -- нужна СУБД из docker-compose.test.yml")
     engine = create_engine(url)
     try:
         with engine.connect():
